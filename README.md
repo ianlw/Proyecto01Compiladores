@@ -4,5 +4,8 @@
 - TINOCO-CCOTO-LUIS MANUEL
 
 # Datos Importantes:
-    - Origin: Repositorio Original
-    - Upstream: Rama del repositorio en github
+- origin: Copia del repositorio en github (Hacer push)
+- upstream: Repositorio Original (Ian) (hacer pull)
+
+## Trabajo
+    Antes de hacer 
