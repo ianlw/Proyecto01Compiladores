@@ -8,4 +8,4 @@
 - upstream: Repositorio Original (Ian) (hacer pull)
 
 ## Trabajo
-    Antes de hacer 
+    Antes de hacer un push (Enviar cambios) se necesita traer los cambios (pull) para evitar conflictos en el repostorio Original.
