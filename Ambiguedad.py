@@ -25,24 +25,15 @@ def factorizar_izquierda(gramatica):
             if len(prods) == 1:
                 nuevas_reglas[no_terminal].append(prods[0])
             else:
-                nuevo_no_terminal = no_terminal + '_factorizado'
+                nuevo_no_terminal = no_terminal + "'"
                 nuevas_reglas[no_terminal].append(prefijo + ' ' + nuevo_no_terminal)
                 nuevas_reglas[nuevo_no_terminal].extend([prod[len(prefijo):].strip() or 'ε' for prod in prods])
     
     return nuevas_reglas
 
-# Función para eliminar las producciones epsilon (ε)
-def eliminar_epsilon(gramatica):
-    nuevas_reglas = defaultdict(list)
-    for no_terminal, producciones in gramatica.items():
-        producciones_filtradas = [prod for prod in producciones if prod != 'ε']
-        nuevas_reglas[no_terminal].extend(producciones_filtradas)
-    return nuevas_reglas
-
 # Función principal para eliminar la ambigüedad de la gramática
 def eliminar_ambiguedad(gramatica):
     gramatica_factorizada = factorizar_izquierda(gramatica)
-    #gramatica_sin_epsilon = eliminar_epsilon(gramatica_factorizada)
     return gramatica_factorizada
 
 # Función para imprimir la gramática de manera legible
@@ -53,10 +44,9 @@ def imprimir_gramatica(gramatica):
 # Función principal del programa
 def main():
     entrada = """\
-    S -> var := E
-    E -> E + E | E - E | (E) | E * E | E / E | Var | Num
-    Var -> a | b | c | d | e | f | g | h | i | j | k | l | m | n 
-    Num -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+    E -> E + T | E - T | T
+    T -> F * T | F / T | F
+    F -> (E) | id | n
     """
     
     print("Gramática Original:")
