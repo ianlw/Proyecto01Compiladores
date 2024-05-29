@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox
 class GrammarView:
     def __init__(self, root, process_callback):
         self.root = root
-        self.root.title("Eliminación de Recursión en GLC")
+        self.root.title("Eliminación de Recursión y/o Ambigüedad en GLC")
         self.root.geometry("670x560")
         self.style = ttk.Style()
         self.style.theme_use('clam')  
@@ -23,7 +23,7 @@ class GrammarView:
         main_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
         # Entrada de gramática
-        self.input_label = ttk.Label(main_frame, text="Ingrese la gramática (ej: S -> Sa | b):", style="TLabel")
+        self.input_label = ttk.Label(main_frame, text="Ingrese la gramática (ej: S -> S a | b):", style="TLabel")
         self.input_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
         
         self.grammar_input = tk.Text(main_frame, width=70, height=10, wrap="word", font=("Consolas", 12))
