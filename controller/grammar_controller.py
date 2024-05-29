@@ -1,5 +1,6 @@
 from model.grammar_recursion_eliminator import eliminar_recursion, eliminar_ambiguedad 
 from view.main_window import GrammarView
+from Ambiguedad import eliminar_ambiguedad
 
 class GrammarController:
     def __init__(self, root):

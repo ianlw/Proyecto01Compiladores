@@ -4,28 +4,41 @@ from tkinter import ttk, messagebox
 class GrammarView:
     def __init__(self, root, process_callback):
         self.root = root
-        self.root.title("Eliminación de Recursión en GLC")
-
+        self.root.title("Eliminación de Recursión y/o Ambigüedad en GLC")
+        self.root.geometry("670x560")
+        self.style = ttk.Style()
+        self.style.theme_use('clam')  
         self.create_widgets(process_callback)
 
     def create_widgets(self, process_callback):
+        # Configuración del estilo
+        self.style.configure("TLabel", font=("Helvetica", 12), padding=5, foreground="#333333", background="#E0F2F1")
+        self.style.configure("TButton", font=("Helvetica", 12), padding=5, foreground="#333333", background="#81C784", borderwidth=0)
+        self.style.map("TButton", background=[("active", "#4CAF50")])
+        self.style.configure("TText", font=("Consolas", 12))
+        self.style.configure("TFrame", background="#E0F2F1")
+
+        # Marco principal
+        main_frame = ttk.Frame(self.root, padding="10 10 10 10", style="TFrame")
+        main_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
         # Entrada de gramática
-        self.input_label = ttk.Label(self.root, text="Ingrese la gramática (ej: S -> Sa|b):")
-        self.input_label.grid(column=0, row=0, padx=10, pady=10)
+        self.input_label = ttk.Label(main_frame, text="Ingrese la gramática (ej: S -> S a | b):", style="TLabel")
+        self.input_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
         
-        self.grammar_input = tk.Text(self.root, width=50, height=10)
-        self.grammar_input.grid(column=0, row=1, padx=10, pady=10)
+        self.grammar_input = tk.Text(main_frame, width=70, height=10, wrap="word", font=("Consolas", 12))
+        self.grammar_input.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         # Botón para procesar
-        self.process_button = ttk.Button(self.root, text="Eliminar Recursión y Abiguedad", command=process_callback)
+        self.process_button = ttk.Button(self.root, text="Eliminar Recursión y/o ambigüedad", command=process_callback)
         self.process_button.grid(column=0, row=2, padx=10, pady=10)
 
         # Salida de gramática
-        self.output_label = ttk.Label(self.root, text="Gramática sin recursión:")
-        self.output_label.grid(column=0, row=3, padx=10, pady=10)
+        self.output_label = ttk.Label(main_frame, text="Gramática sin recursión ni ambigüedad:", style="TLabel")
+        self.output_label.grid(column=0, row=3, padx=5, pady=5, sticky=tk.W)
 
-        self.grammar_output = tk.Text(self.root, width=50, height=10, state='disabled')
-        self.grammar_output.grid(column=0, row=4, padx=10, pady=10)
+        self.grammar_output = tk.Text(main_frame, width=70, height=10, wrap="word", font=("Consolas", 12), state='disabled', bg="#E0F2F1")
+        self.grammar_output.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
 
     def input_gramatica(self):
         return self.grammar_input.get("1.0", tk.END).strip()
