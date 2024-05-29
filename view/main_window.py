@@ -30,8 +30,8 @@ class GrammarView:
         self.grammar_input.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         # Botón para procesar
-        self.process_button = ttk.Button(main_frame, text="Eliminar Recursión y Ambigüedad", command=process_callback, style="TButton")
-        self.process_button.grid(column=0, row=2, padx=5, pady=10)
+        self.process_button = ttk.Button(self.root, text="Eliminar Recursión", command=process_callback)
+        self.process_button.grid(column=0, row=2, padx=10, pady=10)
 
         # Salida de gramática
         self.output_label = ttk.Label(main_frame, text="Gramática sin recursión ni ambigüedad:", style="TLabel")
@@ -40,20 +40,15 @@ class GrammarView:
         self.grammar_output = tk.Text(main_frame, width=70, height=10, wrap="word", font=("Consolas", 12), state='disabled', bg="#E0F2F1")
         self.grammar_output.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-    def get_grammar_input(self):
+    def input_gramatica(self):
         return self.grammar_input.get("1.0", tk.END).strip()
 
-    def display_grammar_output(self, gramatica):
+    def output_gramatica(self, gramatica):
         self.grammar_output.config(state='normal')
         self.grammar_output.delete("1.0", tk.END)
         for no_terminal, producciones in gramatica.items():
             self.grammar_output.insert(tk.END, f"{no_terminal} -> {' | '.join(producciones)}\n")
         self.grammar_output.config(state='disabled')
 
-    def show_error_message(self, message):
+    def mensaje_error(self, message):
         messagebox.showerror("Error", message)
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = GrammarView(root, lambda: None)
-    root.mainloop()
