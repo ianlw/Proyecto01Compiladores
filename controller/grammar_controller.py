@@ -1,5 +1,6 @@
 from model.grammar_recursion_eliminator import eliminar_recursion_directa
 from view.main_window import GrammarView
+from Ambiguedad import eliminar_ambiguedad
 
 class GrammarController:
     def __init__(self, root):
@@ -15,7 +16,8 @@ class GrammarController:
         try:
             gramatica = self.parse_grammar(input_text)
             nueva_gramatica = eliminar_recursion_directa(gramatica)
-            self.view.display_grammar_output(nueva_gramatica)
+            coregida_gramatica = eliminar_ambiguedad(nueva_gramatica)
+            self.view.display_grammar_output(coregida_gramatica)
         except Exception as e:
             self.view.show_error_message(str(e))
 

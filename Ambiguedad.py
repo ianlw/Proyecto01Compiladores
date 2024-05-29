@@ -10,6 +10,7 @@ def parsear_gramatica(entrada):
         lhs = lhs.strip()
         rhs = [alt.strip() for alt in rhs.split('|')]
         gramatica[lhs].extend(rhs)
+    print(gramatica)
     return gramatica
 
 # Función para realizar la factorización a la izquierda
