@@ -17,7 +17,7 @@ class GrammarView:
         self.grammar_input.grid(column=0, row=1, padx=10, pady=10)
 
         # Botón para procesar
-        self.process_button = ttk.Button(self.root, text="Eliminar Recursión", command=process_callback)
+        self.process_button = ttk.Button(self.root, text="Eliminar Recursión y Abiguedad", command=process_callback)
         self.process_button.grid(column=0, row=2, padx=10, pady=10)
 
         # Salida de gramática
@@ -39,4 +39,3 @@ class GrammarView:
 
     def show_error_message(self, message):
         messagebox.showerror("Error", message)
-

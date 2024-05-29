@@ -1,4 +1,4 @@
-from model.grammar_recursion_eliminator import eliminar_recursion_directa
+from model.grammar_recursion_eliminator import eliminar_recursion, factorizar_izquierda
 from view.main_window import GrammarView
 
 class GrammarController:
@@ -14,8 +14,9 @@ class GrammarController:
         
         try:
             gramatica = self.parse_grammar(input_text)
-            nueva_gramatica = eliminar_recursion_directa(gramatica)
-            self.view.display_grammar_output(nueva_gramatica)
+            no_recursion_gramatica = eliminar_recursion(gramatica)
+            no_ambiguedad_gramatica = factorizar_izquierda(no_recursion_gramatica)
+            self.view.display_grammar_output(no_ambiguedad_gramatica)
         except Exception as e:
             self.view.show_error_message(str(e))
 
@@ -27,4 +28,3 @@ class GrammarController:
             producciones = [p.strip() for p in producciones.split('|')]
             gramatica[no_terminal] = producciones
         return gramatica
-
