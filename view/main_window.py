@@ -27,15 +27,15 @@ class GrammarView:
         self.grammar_output = tk.Text(self.root, width=50, height=10, state='disabled')
         self.grammar_output.grid(column=0, row=4, padx=10, pady=10)
 
-    def get_grammar_input(self):
+    def input_gramatica(self):
         return self.grammar_input.get("1.0", tk.END).strip()
 
-    def display_grammar_output(self, gramatica):
+    def output_gramatica(self, gramatica):
         self.grammar_output.config(state='normal')
         self.grammar_output.delete("1.0", tk.END)
         for no_terminal, producciones in gramatica.items():
             self.grammar_output.insert(tk.END, f"{no_terminal} -> {' | '.join(producciones)}\n")
         self.grammar_output.config(state='disabled')
 
-    def show_error_message(self, message):
+    def mensaje_error(self, message):
         messagebox.showerror("Error", message)
