@@ -1,6 +1,8 @@
 from model.grammar_recursion_eliminator import eliminar_recursion, eliminar_ambiguedad 
 from view.main_window import GrammarView
 from Ambiguedad import eliminar_ambiguedad
+from Primeros import calcular_conjunto_primero
+from Siguientes import calcular_conjunto_siguiente
 
 class GrammarController:
     def __init__(self, root):
@@ -14,10 +16,14 @@ class GrammarController:
             return
         
         try:
-            gramatica = self.parse_gramatica(input_text)
-            no_recursion_gramatica = eliminar_recursion(gramatica)
-            no_ambiguedad_gramatica = eliminar_ambiguedad(no_recursion_gramatica)
-            self.view.output_gramatica(no_ambiguedad_gramatica)
+            gramatica = self.parse_gramatica(input_text) #Parsear el lenguaje
+            no_recursion_gramatica = eliminar_recursion(gramatica) #Eliminar la recursion
+            no_ambiguedad_gramatica = eliminar_ambiguedad(no_recursion_gramatica) #Eliminar la ambiguiedad
+            self.view.output_gramatica(no_ambiguedad_gramatica) #Mostrar la gramatica sin recursion ni ambiguedad
+            conjunto_primeros = calcular_conjunto_primero(no_ambiguedad_gramatica) #Calcular los conjuntos primeros
+            self.view.output_Primeros(conjunto_primeros) #Mostrar los conjuntos primeros
+            conjunto_siguientes = calcular_conjunto_siguiente(no_ambiguedad_gramatica, conjunto_primeros)
+            self.view.output_Siguientes(conjunto_siguientes)
         except:
             self.view.mensaje_error("Error en la digitación de la gramática")
 
