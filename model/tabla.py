@@ -68,7 +68,7 @@ def crear_tabla(gramatica, primeros, siguientes):
     pivot_df = pivot_df.fillna('')
 
     # Plotting using matplotlib
-    fig, ax = plt.subplots(figsize=(12, 4))
+    fig, ax = plt.subplots(figsize=(9, 2))
     ax.axis('tight')
     ax.axis('off')
     ax.table(cellText=pivot_df.values,
