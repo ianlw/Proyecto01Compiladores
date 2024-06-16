@@ -48,11 +48,11 @@ def calcular_conjunto_primero(grammar):
     return parser.get_first_sets()
 
 if __name__ == "__main__":
-    grammar = {
-        'E': ['E + T', 'E - T', 'T'],
-        'T': ['F * T', 'F / T', 'F'],
-        'F': ['( E )', 'id', 'n']
-    }
+    grammar = {'E': ["T E'"], 
+               "E'": ["+ T E'", "- T E'", 'ε'], 
+               'T': ["F T'"], 
+               "T'": ['* T', '/    T', 'ε'], 
+               'F': ['(E)', 'id', 'n']}
     
     first_sets = calcular_conjunto_primero(grammar)
     print("First sets:")
