@@ -7,7 +7,7 @@ class GrammarView:
     def __init__(self, root, process_callback):
         self.root = root
         self.root.title("Eliminación de Recursión y/o Ambigüedad en GLC")
-        self.root.geometry("1040x560")
+        # self.root.geometry("1040x560")
         root.configure(bg="#E0F2F1")
         # self.table = TableController()
         self.style = ttk.Style()
@@ -75,7 +75,7 @@ class GrammarView:
         self.tabla_frame.grid(column=0, row=1, pady=2)
 
         self.tabla_label = tk.Label(self.tabla_frame, text="Tabla LL", bg="#E0F2F1", fg="#333333", font=("Cascadia Code", 11))
-        self.tabla_label.grid(column=0, row=0, pady=15)
+        self.tabla_label.grid(column=0, row=0, pady=9)
 
         self.table_ll = tk.Label(self.tabla_frame, bg="#E0F2F1")
         self.table_ll.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
