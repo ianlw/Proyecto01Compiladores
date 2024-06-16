@@ -35,16 +35,19 @@ def calcular_conjunto_siguiente(grammar, first_sets):
     return parser.get_follow_sets()
 
 if __name__ == "__main__":
-    grammar = {
-        'E': ['E + T', 'E - T', 'T'],
-        'T': ['F * T', 'F / T', 'F'],
-        'F': ['( E )', 'id', 'n']
-    }
+    grammar = {'E': ["T E'"], 
+               "E'": ["+ T E'", "- T E'", 'ε'], 
+               'T': ["F T'"], 
+               "T'": ['* T', '/    T', 'ε'], 
+               'F': ['(E)', 'id', 'n']
+               }
 
     from Primeros import calcular_conjunto_primero
     first_sets = calcular_conjunto_primero(grammar)
-    
+    print(first_sets)
+    print()
     follow_sets = calcular_conjunto_siguiente(grammar, first_sets)
-    print("Follow sets:")
-    for non_terminal, follow_set in follow_sets.items():
-        print(f"FOLLOW({non_terminal}) = {follow_set}")
+    print(follow_sets)
+    # print("Follow sets:")
+    # for non_terminal, follow_set in follow_sets.items():
+        # print(f"FOLLOW({non_terminal}) = {follow_set}")
