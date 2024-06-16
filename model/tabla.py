@@ -13,13 +13,13 @@ class TablaAnalisisSintactico:
         for non_terminal, productions in gramatica.items():
             for production in productions:
                 first_symbol = production[0]
-                if first_symbol in primeros:  # Check if it's a non-terminal
+                if first_symbol in primeros: 
                     for terminal in primeros[first_symbol]:
                         ll_table[(non_terminal, terminal)] = production
-                elif first_symbol == 'ε':  # Handle epsilon productions
+                elif first_symbol == 'ε':
                     for terminal in siguientes[non_terminal]:
                         ll_table[(non_terminal, terminal)] = production
-                else:  # It's a terminal
+                else: 
                     ll_table[(non_terminal, first_symbol)] = production
         return ll_table
 
@@ -47,27 +47,19 @@ class TablaAnalisisSintactico:
     #     'F': {'$', '*', '+', '-', '/'}
     # }
 
-    # Constructing the LL table
 def crear_tabla(gramatica, primeros, siguientes): 
     table = TablaAnalisisSintactico(gramatica, primeros, siguientes)
     ll_table = table.construct_ll_table(gramatica, primeros, siguientes)
 
-    # Initialize an empty DataFrame for visualization
     df = pd.DataFrame(columns=['Non-Terminal', 'Terminal', 'Production'])
-
-    # Use loc indexer to add rows to the DataFrame
     row_index = 0
     for (non_terminal, terminal), production in ll_table.items():
         df.loc[row_index] = [non_terminal, terminal, ' '.join(production)]
         row_index += 1
 
-    # Pivot the DataFrame to create a double-entry table with non-terminals as rows
     pivot_df = df.pivot(index='Non-Terminal', columns='Terminal', values='Production')
-
-    # Fill NaN values with an empty string for better readability
     pivot_df = pivot_df.fillna('')
 
-    # Plotting using matplotlib
     fig, ax = plt.subplots(figsize=(9, 2))
     ax.axis('tight')
     ax.axis('off')
@@ -77,8 +69,7 @@ def crear_tabla(gramatica, primeros, siguientes):
              cellLoc = 'center', loc='center')
 
 
-    # Guardar la figura en la ubicación del archivo especificada
+    # Guardar la tabla
     fig.savefig("./tabla_ll.png", bbox_inches='tight')
     
-    # Cerrar la figura para liberar memoria
     plt.close(fig)
