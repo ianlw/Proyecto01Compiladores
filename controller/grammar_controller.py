@@ -1,5 +1,6 @@
 from model.grammar_recursion_eliminator import eliminar_recursion, eliminar_ambiguedad 
 from view.main_window import GrammarView
+from model.tabla import crear_tabla 
 from Ambiguedad import eliminar_ambiguedad
 from Primeros import calcular_conjunto_primero
 from Siguientes import calcular_conjunto_siguiente
@@ -24,6 +25,8 @@ class GrammarController:
             self.view.output_Primeros(conjunto_primeros) #Mostrar los conjuntos primeros
             conjunto_siguientes = calcular_conjunto_siguiente(no_ambiguedad_gramatica, conjunto_primeros)
             self.view.output_Siguientes(conjunto_siguientes)
+            crear_tabla(no_ambiguedad_gramatica, conjunto_primeros, conjunto_siguientes)
+            self.view.mostrar_tabla()
         except:
             self.view.mensaje_error("Error en la digitación de la gramática")
 
