@@ -25,6 +25,9 @@ class GrammarController:
             self.view.output_Primeros(conjunto_primeros) #Mostrar los conjuntos primeros
             conjunto_siguientes = calcular_conjunto_siguiente(no_ambiguedad_gramatica, conjunto_primeros)
             self.view.output_Siguientes(conjunto_siguientes)
+            print(no_ambiguedad_gramatica)
+            print(conjunto_primeros)
+            print(conjunto_siguientes)
             crear_tabla(no_ambiguedad_gramatica, conjunto_primeros, conjunto_siguientes)
             self.view.mostrar_tabla()
         except:

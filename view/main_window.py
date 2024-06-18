@@ -7,9 +7,9 @@ class GrammarView:
     def __init__(self, root, process_callback):
         self.root = root
         self.root.title("Eliminación de Recursión y/o Ambigüedad en GLC")
-        # self.root.geometry("1040x560")
+        # Ajustar el tamaño de la ventana
+        self.root.geometry("1560x740")
         root.configure(bg="#E0F2F1")
-        # self.table = TableController()
         self.style = ttk.Style()
         self.style.theme_use('clam')
         self.create_widgets(process_callback)
@@ -33,7 +33,7 @@ class GrammarView:
         self.input_label = ttk.Label(self.grammar_frame, text="Ingrese la gramática (ej: S -> S a | b):", style="TLabel")
         self.input_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
         
-        self.grammar_input = tk.Text(self.grammar_frame, width=30, height=7, wrap="word", font=("Cascadia Code", 11))
+        self.grammar_input = tk.Text(self.grammar_frame, width=45, height=10, wrap="word", font=("Cascadia Code", 11))
         self.grammar_input.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         # Botón para procesar
@@ -48,7 +48,7 @@ class GrammarView:
         self.output_label = ttk.Label(self.grammar_frame, text="Gramática sin recursión ni ambigüedad:", style="TLabel")
         self.output_label.grid(column=0, row=3, padx=5, pady=5, sticky=tk.W)
 
-        self.grammar_output = tk.Text(self.grammar_frame, width=30, height=7, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
+        self.grammar_output = tk.Text(self.grammar_frame, width=45, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
         self.grammar_output.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         self.functions_table_frame = tk.Frame(main_frame, bg="#E0F2F1")
@@ -61,14 +61,14 @@ class GrammarView:
         self.output_label = ttk.Label(self.functions_frame, text="Conjuntos primeros:", style="TLabel")
         self.output_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
 
-        self.first_output = tk.Text(self.functions_frame, width=35, height=7, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
+        self.first_output = tk.Text(self.functions_frame, width=52, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
         self.first_output.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         # Salida de los conjuntos Siguientes
         self.output_label = ttk.Label(self.functions_frame, text="Conjuntos siguientes:", style="TLabel")
         self.output_label.grid(column=1, row=0, padx=5, pady=5, sticky=tk.W)
 
-        self.follow_output = tk.Text(self.functions_frame, width=35, height=7, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
+        self.follow_output = tk.Text(self.functions_frame, width=52, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
         self.follow_output.grid(column=1, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         self.tabla_frame = tk.Frame(self.functions_table_frame, bg="#E0F2F1")
@@ -95,14 +95,14 @@ class GrammarView:
         self.first_output.delete("1.0", tk.END)
         for non_terminal, first_set in Conjuntos.items():
             self.first_output.insert(tk.END, f"PRIMERO({non_terminal}) = {{{', '.join(first_set)}}}\n")
-        self.grammar_output.config(state='disabled')
+        self.first_output.config(state='disabled')
 
     def output_Siguientes(self, Conjuntos):
         self.follow_output.config(state='normal')
         self.follow_output.delete("1.0", tk.END)
         for non_terminal, follow_set in Conjuntos.items():
             self.follow_output.insert(tk.END, f"SIGUIENTE({non_terminal}) = {{{', '.join(follow_set)}}}\n")
-        self.grammar_output.config(state='disabled')
+        self.follow_output.config(state='disabled')
 
     def mensaje_error(self, message):
         messagebox.showerror("Error", message)
@@ -112,11 +112,10 @@ class GrammarView:
         self.table_ll.config(image=tabla)
         self.table_ll.image = tabla
 
-#
-# if __name__ == "__main__":
-#     def dummy_callback():
-#         print("Process callback triggered")
-#     
-#     root = tk.Tk()
-#     app = GrammarView(root, dummy_callback)
-#     root.mainloop()
+if __name__ == "__main__":
+    def dummy_callback():
+        print("Process callback triggered")
+    
+    root = tk.Tk()
+    app = GrammarView(root, dummy_callback)
+    root.mainloop()
