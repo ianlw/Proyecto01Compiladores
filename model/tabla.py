@@ -74,6 +74,7 @@ def crear_tabla(gramatica, primeros, siguientes):
     fig.savefig("./tabla_ll.png", bbox_inches='tight')
 
     plt.close(fig)
+    return ll_table
 
 # Ejemplo de uso
 gramatica = {
@@ -100,4 +101,5 @@ siguientes = {
     'F': {'$', '*', '+', '/', '-', ')'}
 }
 
-crear_tabla(gramatica, primeros, siguientes)
+a = crear_tabla(gramatica, primeros, siguientes)
+print(a)
