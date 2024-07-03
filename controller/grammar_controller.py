@@ -4,11 +4,41 @@ from model.tabla import crear_tabla
 from Ambiguedad import eliminar_ambiguedad
 from Primeros import calcular_conjunto_primero
 from Siguientes import calcular_conjunto_siguiente
+from model.Terminales import find_symbols
+from model.ProcesarCadena import parse
 
 class GrammarController:
     def __init__(self, root):
         self.root = root
-        self.view = GrammarView(root, self.procesar_gramatica)
+        self.view = GrammarView(root, self.procesar_gramatica, self.Procesar_cadena)
+
+    def Procesar_cadena(self):
+        input_txtCadena = self.view.input_cadena()
+        input_txtGramatica = self.view.input_gramatica()
+        
+        if not input_txtCadena:
+            self.view.mensaje_error("Por favor, ingrese una cadena.")
+            return 
+        
+        if not input_txtGramatica:
+            self.view.mensaje_error("Por favor, ingrese una gramática.")
+            return 
+
+        try:
+            gramatica = self.parse_gramatica(input_txtGramatica)  # Parsear el lenguaje
+            no_recursion_gramatica = eliminar_recursion(gramatica)  # Eliminar la recursión
+            no_ambiguedad_gramatica = eliminar_ambiguedad(no_recursion_gramatica)  # Eliminar la ambigüedad
+
+            terminales, no_terminales, primer_simbolo = find_symbols(no_ambiguedad_gramatica)
+            conjunto_primeros = calcular_conjunto_primero(no_ambiguedad_gramatica)  # Calcular los conjuntos primeros
+            conjunto_siguientes = calcular_conjunto_siguiente(no_ambiguedad_gramatica, conjunto_primeros)
+
+            tabla = crear_tabla(no_ambiguedad_gramatica, conjunto_primeros, conjunto_siguientes)
+
+            Verdad = parse(input_txtCadena, tabla, primer_simbolo, terminales, no_terminales)
+            self.view.output_cadena(Verdad)
+        except Exception as e:
+            self.view.mensaje_error(f"Error en la digitación de la cadena: {e}")
 
     def procesar_gramatica(self):
         input_text = self.view.input_gramatica()
@@ -28,7 +58,7 @@ class GrammarController:
             print(no_ambiguedad_gramatica)
             print(conjunto_primeros)
             print(conjunto_siguientes)
-            crear_tabla(no_ambiguedad_gramatica, conjunto_primeros, conjunto_siguientes)
+            tabla = crear_tabla(no_ambiguedad_gramatica, conjunto_primeros, conjunto_siguientes)
             self.view.mostrar_tabla()
         except:
             self.view.mensaje_error("Error en la digitación de la gramática")

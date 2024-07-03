@@ -1,20 +1,18 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk, messagebox
 
-from matplotlib.pyplot import style
-
 class GrammarView:
-    def __init__(self, root, process_callback):
+    def __init__(self, root, process_callback, process_cadena):
         self.root = root
-        self.root.title("Eliminación de Recursión y/o Ambigüedad en GLC")
+        self.root.title("Crear Tabla LL(k)")
         # Ajustar el tamaño de la ventana
         self.root.geometry("1560x740")
         root.configure(bg="#E0F2F1")
         self.style = ttk.Style()
         self.style.theme_use('clam')
-        self.create_widgets(process_callback)
+        self.create_widgets(process_callback, process_cadena)
 
-    def create_widgets(self, process_callback):
+    def create_widgets(self, process_callback, process_cadena):
         # Configuración del estilo
         self.style.configure("TLabel", font=("Helvetica", 11), padding=5, foreground="#333333", background="#E0F2F1")
         self.style.configure("TButton", font=("Helvetica", 11), padding=5, foreground="#333333", background="#81C784", borderwidth=0)
@@ -80,6 +78,22 @@ class GrammarView:
         self.table_ll = tk.Label(self.tabla_frame, bg="#E0F2F1")
         self.table_ll.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
 
+        # Marco para la entrada de cadena
+        self.cadena_frame = ttk.Frame(main_frame, padding="10 10 10 10", style="TFrame")
+        self.cadena_frame.grid(column=0, row=1, columnspan=2, sticky=(tk.W, tk.E))
+
+        self.cadena_label = ttk.Label(self.cadena_frame, text="Ingrese la cadena (ej: n + n):", style="TLabel")
+        self.cadena_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
+        
+        self.cadena_input = tk.Entry(self.cadena_frame, width=50, font=("Cascadia Code", 11))
+        self.cadena_input.grid(column=1, row=0, padx=5, pady=5, sticky=(tk.W, tk.E))
+        
+        self.cadena_button = ttk.Button(self.cadena_frame, text="Procesar Cadena", command=process_cadena)
+        self.cadena_button.grid(column=2, row=0, padx=5, pady=5, sticky=tk.W)
+        
+        self.cadena_result = ttk.Label(self.cadena_frame, text="", style="TLabel")
+        self.cadena_result.grid(column=3, row=0, padx=5, pady=5, sticky=tk.W)
+
     def input_gramatica(self):
         return self.grammar_input.get("1.0", tk.END).strip()
 
@@ -112,10 +126,27 @@ class GrammarView:
         self.table_ll.config(image=tabla)
         self.table_ll.image = tabla
 
+    def input_cadena(self):
+        return self.cadena_input.get().strip()
+
+    def output_cadena(self, resultado):
+        if resultado:
+            self.cadena_result.config(text="Aceptado")
+        else:
+            self.cadena_result.config(text="Rechazado")
+
 if __name__ == "__main__":
     def dummy_callback():
         print("Process callback triggered")
     
+    def process_cadena():
+        cadena = app.input_cadena()
+        print(f"Procesar cadena: {cadena}")
+        # Aquí puedes agregar la lógica para procesar la cadena y determinar si es aceptada o rechazada
+        # Por ejemplo, podrías llamar a una función de tu parser y pasarle la cadena
+        resultado = True  # Cambia esto según el resultado del procesamiento de la cadena
+        app.output_cadena(resultado)
+    
     root = tk.Tk()
-    app = GrammarView(root, dummy_callback)
+    app = GrammarView(root, dummy_callback, process_cadena)
     root.mainloop()

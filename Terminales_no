@@ -1,0 +1,30 @@
+class Grammar:
+    def __init__(self, rules):
+        self.find_symbols()
+
+    def find_symbols(reglas):
+        rules = reglas
+        terminals = set()
+        non_terminals = set()
+        for non_terminal, productions in rules.items():
+            non_terminals.add(non_terminal)
+            for production in productions:
+                for symbol in production.split():
+                    if not symbol.isupper() and symbol not in ('ε', '|'):
+                        terminals.add(symbol)
+                    elif symbol.isupper():
+                        non_terminals.add(symbol)
+        print(terminals)
+        print(non_terminals)
+        return terminals, non_terminals
+
+if __name__ == "__main__":
+    rules = {
+        "E": ["E E'", "T"],
+        "E'": ["+ T", "- T"],
+        "T": ["F T'"],
+        "T'": ["* T", "/ T", "ε"],
+        "F": ["( E )", "id", "n"]
+    }
+
+    Grammar.find_symbols(rules)
