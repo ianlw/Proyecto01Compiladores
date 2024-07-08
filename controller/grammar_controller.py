@@ -37,6 +37,7 @@ class GrammarController:
 
             Verdad = parse(input_txtCadena, tabla, primer_simbolo, terminales, no_terminales)
             self.view.output_cadena(Verdad)
+            self.view.mostrar_pila()
         except Exception as e:
             self.view.mensaje_error(f"Error en la digitación de la cadena: {e}")
 

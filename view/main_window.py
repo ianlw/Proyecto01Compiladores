@@ -6,7 +6,7 @@ class GrammarView:
         self.root = root
         self.root.title("Crear Tabla LL(k)")
         # Ajustar el tamaño de la ventana
-        self.root.geometry("1560x740")
+        self.root.geometry("1800x900")
         root.configure(bg="#E0F2F1")
         self.style = ttk.Style()
         self.style.theme_use('clam')
@@ -26,7 +26,7 @@ class GrammarView:
 
         # Entrada de gramática
         self.grammar_frame = tk.Frame(main_frame, bg="#E0F2F1")
-        self.grammar_frame.grid(column=0, row=0)
+        self.grammar_frame.grid(column=0, row=0, sticky=tk.N)
 
         self.input_label = ttk.Label(self.grammar_frame, text="Ingrese la gramática (ej: S -> S a | b):", style="TLabel")
         self.input_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
@@ -49,6 +49,7 @@ class GrammarView:
         self.grammar_output = tk.Text(self.grammar_frame, width=45, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
         self.grammar_output.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
 
+        # Marco para los conjuntos primeros y siguientes
         self.functions_table_frame = tk.Frame(main_frame, bg="#E0F2F1")
         self.functions_table_frame.grid(column=1, row=0, sticky=tk.N)
 
@@ -56,27 +57,61 @@ class GrammarView:
         self.functions_frame.grid(column=0, row=0, sticky=tk.N)
 
         # Salida de los conjuntos Primeros
-        self.output_label = ttk.Label(self.functions_frame, text="Conjuntos primeros:", style="TLabel")
-        self.output_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
+        self.first_label = ttk.Label(self.functions_frame, text="Conjuntos primeros:", style="TLabel")
+        self.first_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
 
         self.first_output = tk.Text(self.functions_frame, width=52, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
         self.first_output.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
         # Salida de los conjuntos Siguientes
-        self.output_label = ttk.Label(self.functions_frame, text="Conjuntos siguientes:", style="TLabel")
-        self.output_label.grid(column=1, row=0, padx=5, pady=5, sticky=tk.W)
+        self.follow_label = ttk.Label(self.functions_frame, text="Conjuntos siguientes:", style="TLabel")
+        self.follow_label.grid(column=0, row=2, padx=5, pady=5, sticky=tk.W)
 
         self.follow_output = tk.Text(self.functions_frame, width=52, height=10, wrap="word", font=("Cascadia Code", 11), state='disabled', bg="#E0F2F1")
-        self.follow_output.grid(column=1, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
+        self.follow_output.grid(column=0, row=3, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-        self.tabla_frame = tk.Frame(self.functions_table_frame, bg="#E0F2F1")
-        self.tabla_frame.grid(column=0, row=1, pady=2)
+        # Marco para la entrada de cadena
+        self.cadena_frame = ttk.Frame(main_frame, padding="10 10 10 10", style="TFrame")
+        self.cadena_frame.grid(column=2, row=0, sticky=(tk.N, tk.E), padx=20, pady=10)
+
+        self.cadena_label = ttk.Label(self.cadena_frame, text="Ingrese la cadena (ej: n + n):", style="TLabel")
+        self.cadena_label.grid(column=2, row=0, padx=5, pady=5, sticky=tk.W)
+        
+        self.cadena_input = tk.Entry(self.cadena_frame, width=50, font=("Cascadia Code", 11))
+        self.cadena_input.grid(column=2, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
+        
+        self.cadena_button = ttk.Button(self.cadena_frame, text="Procesar Cadena", command=process_cadena)
+        self.cadena_button.grid(column=2, row=2, padx=5, pady=5, sticky=tk.W)
+        
+        self.cadena_result = ttk.Label(self.cadena_frame, text="", style="TLabel")
+        self.cadena_result.grid(column=2, row=3, padx=5, pady=5, sticky=tk.W)
+
+        # Marco para la imagen del procedimiento
+        self.procedure_frame = tk.Frame(self.cadena_frame, bg="#E0F2F1")
+        self.procedure_frame.grid(column=2, row=4, pady=20, sticky=(tk.W, tk.E))
+
+        self.procedure_label = tk.Label(self.procedure_frame, text="Procedimiento:", bg="#E0F2F1", fg="#333333", font=("Cascadia Code", 11))
+        self.procedure_label.grid(column=2, row=0, pady=9)
+
+        self.procedure_image = tk.Label(self.procedure_frame, bg="#E0F2F1")
+        self.procedure_image.grid(column=2, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
+
+        # Marco para la tabla LL
+        self.tabla_frame = tk.Frame(main_frame, bg="#E0F2F1")
+        self.tabla_frame.grid(column=0, row=2, pady=2, columnspan=3, sticky=(tk.W, tk.E))
 
         self.tabla_label = tk.Label(self.tabla_frame, text="Tabla LL", bg="#E0F2F1", fg="#333333", font=("Cascadia Code", 11))
         self.tabla_label.grid(column=0, row=0, pady=9)
 
         self.table_ll = tk.Label(self.tabla_frame, bg="#E0F2F1")
-        self.table_ll.grid(column=0, row=4, padx=5, pady=5, sticky=(tk.W, tk.E))
+        self.table_ll.grid(column=0, row=1, padx=5, pady=5, sticky=(tk.W, tk.E))
+
+        # Configurar pesos de columnas y filas para un redimensionamiento adecuado
+        main_frame.grid_columnconfigure(0, weight=1)
+        main_frame.grid_columnconfigure(1, weight=1)
+        main_frame.grid_columnconfigure(2, weight=1)
+        main_frame.grid_rowconfigure(0, weight=1)
+        main_frame.grid_rowconfigure(2, weight=1)
 
         # Marco para la entrada de cadena
         self.cadena_frame = ttk.Frame(main_frame, padding="10 10 10 10", style="TFrame")
@@ -120,12 +155,17 @@ class GrammarView:
 
     def mensaje_error(self, message):
         messagebox.showerror("Error", message)
-    
+
     def mostrar_tabla(self):
         tabla = PhotoImage(file="./tabla_ll.png")
         self.table_ll.config(image=tabla)
         self.table_ll.image = tabla
 
+    def mostrar_pila(self):
+        pila = PhotoImage(file="./parse_table.png")
+        self.procedure_image.config(image=pila)
+        self.procedure_image.image = pila
+        
     def input_cadena(self):
         return self.cadena_input.get().strip()
 
@@ -146,6 +186,7 @@ if __name__ == "__main__":
         # Por ejemplo, podrías llamar a una función de tu parser y pasarle la cadena
         resultado = True  # Cambia esto según el resultado del procesamiento de la cadena
         app.output_cadena(resultado)
+        app.mostrar_pila()  # Mostrar la imagen del procedimiento
     
     root = tk.Tk()
     app = GrammarView(root, dummy_callback, process_cadena)
