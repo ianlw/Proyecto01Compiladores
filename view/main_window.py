@@ -113,22 +113,6 @@ class GrammarView:
         main_frame.grid_rowconfigure(0, weight=1)
         main_frame.grid_rowconfigure(2, weight=1)
 
-        # Marco para la entrada de cadena
-        self.cadena_frame = ttk.Frame(main_frame, padding="10 10 10 10", style="TFrame")
-        self.cadena_frame.grid(column=0, row=1, columnspan=2, sticky=(tk.W, tk.E))
-
-        self.cadena_label = ttk.Label(self.cadena_frame, text="Ingrese la cadena (ej: n + n):", style="TLabel")
-        self.cadena_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
-        
-        self.cadena_input = tk.Entry(self.cadena_frame, width=50, font=("Cascadia Code", 11))
-        self.cadena_input.grid(column=1, row=0, padx=5, pady=5, sticky=(tk.W, tk.E))
-        
-        self.cadena_button = ttk.Button(self.cadena_frame, text="Procesar Cadena", command=process_cadena)
-        self.cadena_button.grid(column=2, row=0, padx=5, pady=5, sticky=tk.W)
-        
-        self.cadena_result = ttk.Label(self.cadena_frame, text="", style="TLabel")
-        self.cadena_result.grid(column=3, row=0, padx=5, pady=5, sticky=tk.W)
-
     def input_gramatica(self):
         return self.grammar_input.get("1.0", tk.END).strip()
 
@@ -165,7 +149,7 @@ class GrammarView:
         pila = PhotoImage(file="./parse_table.png")
         self.procedure_image.config(image=pila)
         self.procedure_image.image = pila
-        
+
     def input_cadena(self):
         return self.cadena_input.get().strip()
 
