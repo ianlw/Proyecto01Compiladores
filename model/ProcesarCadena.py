@@ -30,29 +30,39 @@ def parse(input_string, parse_table, start_symbol, terminals, non_terminals):
     procedure_steps = []
 
     while len(stack) > 0:
-        top = stack.pop()
+        top = stack.pop() # Tope de la pila
         current_input = tokens[index]
+        # Almacenamos el estado de la pila y la cadena restate
         procedure_steps.append((' '.join(stack[::-1]), ' '.join(tokens[index:]), f"Top: {top}, Input: {current_input}"))
 
+        # si top es un terminal
         if top in terminals or top == '$':
             if top == current_input:
+                # Avanzar al siguiente elemento
                 index += 1
                 procedure_steps[-1] = (procedure_steps[-1][0], procedure_steps[-1][1], 'Coincide')
             else:
+                # Rechazado
                 procedure_steps[-1] = (procedure_steps[-1][0], procedure_steps[-1][1], 'Error')
                 create_parse_table_image(procedure_steps)
                 return False
+        # Si top es un no terminal
         elif top in non_terminals:
+            # Buscar la producción en la tabla
             if (top, current_input) in parse_table:
+                # Actualizar procedure_steps
                 production = parse_table[(top, current_input)]
                 procedure_steps[-1] = (procedure_steps[-1][0], procedure_steps[-1][1], f"{top} -> {' '.join(production)}")
                 if production != ['ε']:
+                    # Añadir a la pila
                     stack.extend(production[::-1])
             else:
+                # Rechazar
                 procedure_steps[-1] = (procedure_steps[-1][0], procedure_steps[-1][1], 'Error')
                 create_parse_table_image(procedure_steps)
                 return False
         else:
+            # Rechazar
             procedure_steps[-1] = (procedure_steps[-1][0], procedure_steps[-1][1], 'Error')
             create_parse_table_image(procedure_steps)
             return False
